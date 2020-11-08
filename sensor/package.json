@@ -1,0 +1,25 @@
+{
+  "name": "Anchiale-pi",
+  "version": "1.0.0",
+  "description": "Client for taking a temperature measure",
+  "main": "index.js",
+  "scripts": {
+    "start:build": "tsc -w",
+    "start:run": "nodemon build/index.js",
+    "start": "concurrently npm:start:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xrazis/Anchiale-pi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xrazis/Anchiale-pi/issues"
+  },
+  "homepage": "https://github.com/xrazis/Anchiale-pi#readme",
+  "dependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
