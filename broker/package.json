@@ -1,7 +1,7 @@
 {
-  "name": "Anchiale-sensor",
+  "name": "Anchiale-broker",
   "version": "1.0.0",
-  "description": "Client for taking a temperature measure",
+  "description": "Broker for managing incoming client temperatures",
   "main": "index.js",
   "scripts": {
     "start:build": "tsc -w",
@@ -21,9 +21,9 @@
   "homepage": "https://github.com/xrazis/Anchiale-pi#readme",
   "dependencies": {
     "@types/node": "^14.14.7",
-    "@types/socket.io-client": "^1.4.34",
+    "@types/socket.io": "^2.1.11",
     "chalk": "^3.0.0",
     "nodemon": "^2.0.6",
-    "socket.io-client": "^3.0.0"
+    "socket.io": "^3.0.1"
   }
 }
