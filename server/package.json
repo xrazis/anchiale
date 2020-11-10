@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start:build": "tsc -w",
-    "start:run": "nodemon build/index.js",
-    "start": "concurrently npm:start:*"
+    "start:run": "node build/index.js",
+    "dev": "nodemon build/index.js",
+    "test": "concurrently npm:start:build npm:dev",
+    "start": "concurrently start:*"
   },
   "repository": {
     "type": "git",
@@ -20,6 +22,7 @@
   },
   "homepage": "https://github.com/xrazis/Anchiale-pi#readme",
   "dependencies": {
+    "@influxdata/influxdb-client": "^1.8.0",
     "@types/node": "^14.14.7",
     "@types/socket.io": "^2.1.11",
     "chalk": "^3.0.0",

@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 export class ClientSocket {
   private socket!: SocketIOClient.Socket;
 
-  constructor(private path: string, private port: number) {
+  constructor(private port: number, private path: string) {
     this.initSocket();
     this.connStatus();
   }
@@ -16,7 +16,7 @@ export class ClientSocket {
 
   private connStatus() {
     this.socket.on('connect', () => {
-      console.log(chalk.magenta('Connected to server!'));
+      console.log(chalk.green('Connected to server!'));
     });
 
     this.socket.on('disconnect', (reason: string) => {
@@ -27,6 +27,17 @@ export class ClientSocket {
       }
 
       console.log(chalk.yellow('Reconecting...'));
+    });
+  }
+
+  closeConn() {
+    console.log(chalk.yellow('Closing socket...'));
+    this.socket.disconnect();
+  }
+
+  sendTemp(temp: number) {
+    this.socket.emit('temp', temp, (data: string) => {
+      console.log(data);
     });
   }
 }
