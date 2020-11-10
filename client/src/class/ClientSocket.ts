@@ -4,17 +4,17 @@ import io from 'socket.io-client';
 export class ClientSocket {
   private socket!: SocketIOClient.Socket;
 
-  constructor(private port: number, private path: string) {
+  constructor(private path: string, private eventName: string) {
     this.initSocket();
     this.connStatus();
   }
 
-  private initSocket() {
-    this.socket = io(`http://localhost:${this.port}${this.path}`);
+  private initSocket(): void {
+    this.socket = io(this.path);
     console.log(chalk.yellow('Initialized socket...'));
   }
 
-  private connStatus() {
+  private connStatus(): void {
     this.socket.on('connect', () => {
       console.log(chalk.green('Connected to server!'));
     });
@@ -30,14 +30,12 @@ export class ClientSocket {
     });
   }
 
-  closeConn() {
+  closeConn(): void {
     console.log(chalk.yellow('Closing socket...'));
     this.socket.disconnect();
   }
 
-  sendTemp(temp: number) {
-    this.socket.emit('temp', temp, (data: string) => {
-      console.log(data);
-    });
+  sendTemp(uuid: string, temp: number): void {
+    this.socket.emit(this.eventName, { uuid, temp });
   }
 }

@@ -2,20 +2,23 @@ import { ClientSocket } from './ClientSocket';
 import { Sensor } from './Sensor';
 
 export class ClientService {
-  clientSocket: ClientSocket = new ClientSocket(3000, '/');
-  sensor: Sensor = new Sensor();
+  private clientSocket: ClientSocket = new ClientSocket(
+    'http://localhost:3000/',
+    'temp'
+  );
+  private sensor: Sensor = new Sensor();
 
-  constructor() {}
+  constructor(public uuid: string) {}
 
-  tempService() {
+  tempService(): void {
     setInterval(() => {
-      this.clientSocket.sendTemp(this.sensor.takeMeasure);
+      this.clientSocket.sendTemp(this.uuid, this.sensor.takeMeasure);
     }, 1000);
   }
 
-  tempTestService() {
+  tempTestService(): void {
     setInterval(() => {
-      this.clientSocket.sendTemp(this.sensor.takeTestMeasure);
+      this.clientSocket.sendTemp(this.uuid, this.sensor.takeTestMeasure);
     }, 1000);
   }
 }

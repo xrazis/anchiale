@@ -1,26 +1,33 @@
 import chalk from 'chalk';
 import { Server } from 'socket.io';
+import { Database } from './Database';
 
-interface DatabaseHas {
-  push(temp: number): void;
+interface packet {
+  uuid: string;
+  temp: number;
 }
 
-export class ServerSocket<T extends DatabaseHas> {
+export class ServerSocket {
   private io!: Server;
 
-  constructor(private path: string, private port: number, private database: T) {
+  constructor(
+    private path: string,
+    private port: number,
+    private eventName: string,
+    private database: Database
+  ) {
     this.initSocket();
     this.connStatus();
   }
 
-  private initSocket() {
+  private initSocket(): void {
     this.io = new Server(this.port, {
       path: this.path,
     });
     console.log(chalk.yellow('Initialized server...'));
   }
 
-  private connStatus() {
+  private connStatus(): void {
     this.io.on('connect', (socket) => {
       console.log(chalk.green('Client connected!'));
 
@@ -28,15 +35,16 @@ export class ServerSocket<T extends DatabaseHas> {
         console.log(chalk.red('Client disconected!'));
       });
 
-      socket.on('temp', (temp: number) => {
-        this.database.push(temp);
+      socket.on(this.eventName, (data: packet) => {
+        const { uuid, temp } = data;
+        this.database.write(uuid, temp);
       });
     });
   }
 
-  closeSocket() {
-    this.io.close(() => {
-      console.log(chalk.red('Closing socket...'));
-    });
+  closeSocket(): void {
+    console.log(chalk.red('Closing socket...'));
+    this.database.closeWrite();
+    this.io.close();
   }
 }
