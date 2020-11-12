@@ -19,6 +19,6 @@ export class ClientService {
   tempTestService(): void {
     setInterval(() => {
       this.clientSocket.sendTemp(this.uuid, this.sensor.takeTestMeasure);
-    }, 1000);
+    }, 3000);
   }
 }

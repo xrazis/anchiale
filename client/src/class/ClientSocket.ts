@@ -10,7 +10,7 @@ export class ClientSocket {
   }
 
   private initSocket(): void {
-    this.socket = io(this.path);
+    this.socket = io(this.path, { transports: ['websocket'] });
     console.log(chalk.yellow('Initialized socket...'));
   }
 

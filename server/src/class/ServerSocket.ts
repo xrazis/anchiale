@@ -23,6 +23,7 @@ export class ServerSocket {
   private initSocket(): void {
     this.io = new Server(this.port, {
       path: this.path,
+      transports: ['websocket'],
     });
     console.log(chalk.yellow('Initialized server...'));
   }
