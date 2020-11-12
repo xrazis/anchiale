@@ -10,7 +10,11 @@ export class ClientSocket {
   }
 
   private initSocket(): void {
-    this.socket = io(this.path, { transports: ['websocket'] });
+    this.socket = io(this.path, {
+      timeout: 10000,
+      reconnectionAttempts: 200,
+      transports: ['websocket'],
+    });
     console.log(chalk.yellow('Initialized socket...'));
   }
 
@@ -35,7 +39,7 @@ export class ClientSocket {
     this.socket.disconnect();
   }
 
-  sendTemp(uuid: string, temp: number): void {
-    this.socket.emit(this.eventName, { uuid, temp });
+  sendTemp(uuid: string, measurement: number, pointName: string): void {
+    this.socket.emit(this.eventName, { uuid, measurement, pointName });
   }
 }

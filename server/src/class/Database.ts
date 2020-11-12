@@ -5,7 +5,6 @@ import {
   WriteApi,
 } from '@influxdata/influxdb-client';
 import chalk from 'chalk';
-import { url, token, org, bucket } from '../config/creds';
 
 export class Database {
   private client!: InfluxDB;
@@ -17,16 +16,22 @@ export class Database {
   }
 
   private initDatabase(): void {
-    this.client = new InfluxDB({ url: url, token: token });
-    this.writeApi = this.client.getWriteApi(org, bucket);
+    this.client = new InfluxDB({
+      url: process.env.DB_URL!,
+      token: process.env.DB_TOKEN!,
+    });
+    this.writeApi = this.client.getWriteApi(
+      process.env.DB_ORG!,
+      process.env.DB_BUCKET!
+    );
     this.writeApi.useDefaultTags({ host: 'local' });
-    this.queryApi = this.client.getQueryApi(org);
+    this.queryApi = this.client.getQueryApi(process.env.DB_ORG!);
   }
 
-  write(uuid: string, temp: number) {
-    const point = new Point('temperature')
+  write(uuid: string, value: number, pointName: string) {
+    const point = new Point(pointName)
       .tag('client', uuid)
-      .floatField('value', temp);
+      .floatField('value', value);
     this.writeApi.writePoint(point);
     this.writeApi.flush();
   }
@@ -44,7 +49,7 @@ export class Database {
   }
 
   query(filter: string) {
-    const query = `from(bucket: "${bucket}") |> range(start: -1h) |> filter(fn: (r) => r._measurement == "${filter}")`;
+    const query = `from(bucket: "${process.env.DB_BUCKET}") |> range(start: -1h) |> filter(fn: (r) => r._measurement == "${filter}")`;
 
     this.queryApi.queryRows(query, {
       next(row, tableMeta) {

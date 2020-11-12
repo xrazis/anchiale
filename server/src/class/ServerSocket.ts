@@ -4,7 +4,8 @@ import { Database } from './Database';
 
 interface packet {
   uuid: string;
-  temp: number;
+  measurement: number;
+  pointName: string;
 }
 
 export class ServerSocket {
@@ -37,8 +38,8 @@ export class ServerSocket {
       });
 
       socket.on(this.eventName, (data: packet) => {
-        const { uuid, temp } = data;
-        this.database.write(uuid, temp);
+        const { uuid, measurement, pointName } = data;
+        this.database.write(uuid, measurement, pointName);
       });
     });
   }
