@@ -1,3 +1,4 @@
+require('dotenv').config();
 import chalk from 'chalk';
 import { ClientService } from './class/ClientService';
 const { v4: uuidv4 } = require('uuid');
