@@ -24,14 +24,13 @@ export class Database {
       process.env.DB_ORG!,
       process.env.DB_BUCKET!
     );
-    this.writeApi.useDefaultTags({ host: 'local' });
     this.queryApi = this.client.getQueryApi(process.env.DB_ORG!);
   }
 
-  write(uuid: string, value: number, pointName: string) {
+  write(uuid: string, measurement: number, pointName: string) {
     const point = new Point(pointName)
       .tag('client', uuid)
-      .floatField('value', value);
+      .floatField('value', measurement);
     this.writeApi.writePoint(point);
     this.writeApi.flush();
   }
