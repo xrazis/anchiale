@@ -8,25 +8,17 @@ export class ClientService {
   );
   private sensor: Sensor = new Sensor();
 
-  constructor(public uuid: string) {}
+  constructor() {}
 
   tempService(): void {
     setInterval(() => {
-      this.clientSocket.sendTemp(
-        this.uuid,
-        this.sensor.takeMeasure,
-        'temperature'
-      );
+      this.clientSocket.sendTemp(this.sensor.takeMeasure, 'temperature');
     }, 3000);
   }
 
   tempTestService(): void {
     setInterval(() => {
-      this.clientSocket.sendTemp(
-        this.uuid,
-        this.sensor.takeTestMeasure,
-        'temperature'
-      );
+      this.clientSocket.sendTemp(this.sensor.takeTestMeasure, 'temperature');
     }, 3000);
   }
 }

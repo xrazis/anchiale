@@ -21,6 +21,7 @@ export class ClientSocket {
   private connStatus(): void {
     this.socket.on('connect', () => {
       console.log(chalk.green('Connected to server!'));
+      this.socket.emit('subscribe', 'pi-iot');
     });
 
     this.socket.on('disconnect', (reason: string) => {
@@ -39,7 +40,7 @@ export class ClientSocket {
     this.socket.disconnect();
   }
 
-  sendTemp(uuid: string, measurement: number, pointName: string): void {
-    this.socket.emit(this.eventName, { uuid, measurement, pointName });
+  sendTemp(measurement: number, pointName: string): void {
+    this.socket.emit(this.eventName, { measurement, pointName });
   }
 }
