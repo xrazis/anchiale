@@ -1,15 +1,15 @@
 <template>
-  <Navbar />
-  <Hero />
-  <div class="columns mt-6 mb-6 mx-4">
-    <div class="column is-one-fifth">
-      <Panel />
+  <div>
+    <Navbar />
+    <Hero />
+    <div class="columns mt-6 mb-6 mx-4">
+      <div class="column is-one-fifth mx-2">
+        <Panel />
+      </div>
+      <div class="column mx-2"></div>
     </div>
-    <div class="column">
-      Fourth column
-    </div>
+    <Footer />
   </div>
-  <Footer />
 </template>
 
 <script lang="ts">
@@ -23,8 +23,8 @@ import Footer from '@/components/Footer.vue';
   components: {
     Navbar,
     Hero,
-    Footer,
     Panel,
+    Footer,
   },
 })
 export default class App extends Vue {}
