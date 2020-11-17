@@ -25,9 +25,10 @@ export class Database {
       process.env.DB_BUCKET!
     );
     this.queryApi = this.client.getQueryApi(process.env.DB_ORG!);
+    console.log(chalk.yellow('Initialized Database connection...'));
   }
 
-  write(uuid: string, measurement: number, pointName: string) {
+  write(uuid: string, measurement: number, pointName: string): void {
     const point = new Point(pointName)
       .tag('client', uuid)
       .floatField('value', measurement);
@@ -35,7 +36,7 @@ export class Database {
     this.writeApi.flush();
   }
 
-  closeWrite() {
+  closeWrite(): void {
     this.writeApi
       .close()
       .then(() => {
@@ -47,7 +48,7 @@ export class Database {
       });
   }
 
-  query(filter: string) {
+  query(filter: string): void {
     const query = `from(bucket: "${process.env.DB_BUCKET}") |> range(start: -1h) |> filter(fn: (r) => r._measurement == "${filter}")`;
 
     this.queryApi.queryRows(query, {
