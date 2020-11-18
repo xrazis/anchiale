@@ -1,6 +1,7 @@
 require('dotenv').config();
 import express from 'express';
 import chalk from 'chalk';
+var cors = require('cors');
 import { Service } from './class/Service';
 import { AppRouter } from './AppRouter';
 import { Routes } from './routes/Routes';
@@ -11,6 +12,7 @@ const app = express();
 const http = require('http').Server(app);
 const service = new Service(http);
 
+app.use(cors());
 app.use(AppRouter.getInstance());
 
 const route = new Routes(app, service);

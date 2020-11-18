@@ -5,6 +5,10 @@ interface database {
   closeWrite(): void;
 }
 
+interface server extends SocketIO.Server {
+  allSockets(): Promise<{}>;
+}
+
 interface packet {
   uuid: string;
   measurement: number;
@@ -12,7 +16,7 @@ interface packet {
 }
 
 export class Socket<T> {
-  private io!: SocketIO.Server;
+  private io!: server;
 
   constructor(
     private eventName: string,
@@ -50,8 +54,16 @@ export class Socket<T> {
     });
   }
 
-  get rooms() {
-    return this.io.sockets.adapter.rooms;
+  get rooms(): Array<String> {
+    let roomsArray: Array<String> = [];
+    this.io.allSockets().then((msg: any) => {
+      console.log(msg);
+      const iterator = msg.entries();
+      for (const entry of iterator) {
+        roomsArray.push(entry[0]);
+      }
+    });
+    return roomsArray;
   }
 
   closeSocket(): void {

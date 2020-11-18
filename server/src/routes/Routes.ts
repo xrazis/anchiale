@@ -11,11 +11,9 @@ export class Routes {
 
   private devices(): void {
     this.app.get('/devices', async (req, res) => {
-      const data = this.service.socket.rooms;
-      console.log(data);
-      const parsedOata = JSON.stringify(data);
+      const data = await this.service.socket.rooms;
       res.header('Content-Type', 'application/json');
-      res.send(parsedOata);
+      res.send(JSON.stringify(data));
     });
   }
 
