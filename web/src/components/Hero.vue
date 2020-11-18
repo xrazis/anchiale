@@ -5,25 +5,7 @@
         <h1 class="title">
           Welcome to the admin panel for anchiale
         </h1>
-        <h2 class="subtitle mt-3">
-          <div class="field is-grouped">
-            <p class="control">
-              <button class="button is-primary is-inverted">
-                Get clients
-              </button>
-            </p>
-            <p class="control">
-              <button class="button">
-                Cancel
-              </button>
-            </p>
-            <p class="control">
-              <button class="button is-danger">
-                Delete post
-              </button>
-            </p>
-          </div>
-        </h2>
+        <h2 class="subtitle mt-3"></h2>
       </div>
     </div>
   </section>
