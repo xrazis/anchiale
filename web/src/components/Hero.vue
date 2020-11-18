@@ -3,9 +3,11 @@
     <div class="hero-body">
       <div class="container">
         <h1 class="title">
-          Welcome to the admin panel for anchiale
+          Anchiale
         </h1>
-        <h2 class="subtitle mt-3"></h2>
+        <h2 class="subtitle mt-3">
+          Scalable IoT solution for temperature sampling with raspberry-pi
+        </h2>
       </div>
     </div>
   </section>
