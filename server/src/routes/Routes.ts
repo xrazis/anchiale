@@ -13,11 +13,47 @@ export class Routes {
     this.app.get('/devices', async (req, res) => {
       const data = await this.service.socket.rooms;
       res.header('Content-Type', 'application/json');
-      res.send(JSON.stringify(data));
+      if (data) {
+        res.send(JSON.stringify(data));
+      } else {
+        res.send(JSON.stringify({}));
+      }
+    });
+
+    this.app.post('/devices', (req, res) => {
+      req.on('data', async (data) => {
+        const deviceToRemove = JSON.parse(data);
+        const status = await this.service.socket.removeDevice(deviceToRemove);
+
+        res.header('Content-Type', 'application/json');
+        if (status) {
+          res.send('done');
+        } else {
+          res.send('error');
+        }
+      });
+    });
+  }
+
+  private socket(): void {
+    this.app.post('/socket', (req, res) => {
+      req.on('data', async (data) => {
+        const reset = JSON.parse(data).action;
+        await this.service.socket.closeSocket();
+
+        if (reset === 'reset') {
+          await this.service.socket.initSocket();
+          await this.service.socket.initConn();
+        }
+
+        res.header('Content-Type', 'application/json');
+        res.send('done');
+      });
     });
   }
 
   public routes(): void {
     this.devices();
+    this.socket();
   }
 }

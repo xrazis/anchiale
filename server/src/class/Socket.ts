@@ -15,6 +15,10 @@ interface packet {
   pointName: string;
 }
 
+interface device {
+  device: string;
+}
+
 export class Socket<T> {
   private io!: server;
 
@@ -27,12 +31,12 @@ export class Socket<T> {
     this.initConn();
   }
 
-  private initSocket(): void {
+  initSocket(): void {
     this.io = require('socket.io')(this.server);
     console.log(chalk.yellow('Initialized Socket...'));
   }
 
-  private initConn(): void {
+  initConn(): void {
     this.io.on('connect', (socket: SocketIO.Socket) => {
       console.log(chalk.green('Client connected!'));
 
@@ -57,7 +61,6 @@ export class Socket<T> {
   get rooms(): Array<String> {
     let roomsArray: Array<String> = [];
     this.io.allSockets().then((msg: any) => {
-      console.log(msg);
       const iterator = msg.entries();
       for (const entry of iterator) {
         roomsArray.push(entry[0]);
@@ -66,9 +69,13 @@ export class Socket<T> {
     return roomsArray;
   }
 
+  removeDevice(deviceToRemove: device): boolean {
+    this.io.to(deviceToRemove.device).emit('closeConn');
+    return true;
+  }
+
   closeSocket(): void {
     console.log(chalk.red('Closing socket...'));
-    this.database.closeWrite();
     this.io.close();
   }
 }

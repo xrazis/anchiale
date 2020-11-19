@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import { exit } from 'process';
 import io from 'socket.io-client';
 
 export class ClientSocket {
@@ -27,11 +28,18 @@ export class ClientSocket {
     this.socket.on('disconnect', (reason: string) => {
       console.log(chalk.red('Lost connection!'));
 
-      if (reason === 'io server disconnect') {
-        this.socket.connect();
+      if (reason === 'io server disconnect') this.socket.connect();
+
+      if (reason === 'io client disconnect') {
+        console.log(chalk.red('Server kicked you out!'));
+        exit(1);
       }
 
       console.log(chalk.yellow('Reconecting...'));
+    });
+
+    this.socket.on('closeConn', () => {
+      this.closeConn();
     });
   }
 

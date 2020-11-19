@@ -3,7 +3,10 @@
     <div class="hero-body">
       <div class="container">
         <h1 class="title">
-          Anchiale
+          <span class="icon">
+            <i class="fas fa-stream"></i>
+          </span>
+          <span> Anchiale </span>
         </h1>
         <h2 class="subtitle mt-3">
           Scalable IoT solution for temperature sampling with raspberry-pi

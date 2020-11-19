@@ -7,34 +7,41 @@
       <div class="field is-grouped">
         <p class="control">
           <button class="button is-success is-outlined " v-on:click="getClient">
-            Get clients
+            Fetch clients
           </button>
         </p>
         <p class="control">
-          <button class="button">
-            Cancel
+          <button class="button is-outlined" v-on:click="clearClient">
+            Clear
+          </button>
+        </p>
+        <p class="control">
+          <button class="button is-danger is-outlined" v-on:click="resetSocket">
+            Close server socket
           </button>
         </p>
       </div>
     </div>
     <div v-if="hasClients">
-      <a class="panel-block " v-for="(client, index) in clients" :key="index">
-        <span class="panel-icon">
-          <i class="fab fa-raspberry-pi" />
-        </span>
-        {{ client }}
-      </a>
+      <div class="mx-4 py-2" v-for="(client, index) in clients" :key="index">
+        <nav class="level">
+          <div class="level-left">
+            <span class="icon is-medium">
+              <i class="fab fa-raspberry-pi" />
+            </span>
+            _id: {{ client }}
+          </div>
+          <div class="level-right">
+            <a class="delete" v-on:Click="deleteClient(index)"></a>
+          </div>
+        </nav>
+      </div>
     </div>
-    <div v-else>
-      <span class="panel-block">No clients yet!</span>
-    </div>
-    <div v-if="error">
+    <div v-else-if="error">
       <span class="panel-block">{{ error }}</span>
     </div>
-    <div class="panel-block">
-      <button class="button is-link is-outlined is-fullwidth">
-        Reset all filters
-      </button>
+    <div v-else>
+      <span class="panel-block">No clients yet, try fetching!</span>
     </div>
   </nav>
 </template>
@@ -50,13 +57,45 @@ export default class Panel extends Vue {
 
   getClient() {
     axios
-      .get('http://localhost:3000/devices')
+      .get(`${process.env.VUE_APP_SERVER_URL}/devices`)
       .then((response) => {
         this.hasClients = true;
         this.clients = response.data;
       })
       .catch((error) => {
         this.error = error.message;
+      });
+  }
+
+  clearClient() {
+    this.hasClients = false;
+  }
+
+  deleteClient(key: number) {
+    axios
+      .post(`${process.env.VUE_APP_SERVER_URL}/devices`, {
+        device: this.clients[key],
+      })
+      .then((res) => {
+        if (res.data === 'done') {
+          this.getClient();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  resetSocket() {
+    axios
+      .post(`${process.env.VUE_APP_SERVER_URL}/socket`, {
+        action: 'close',
+      })
+      .then((res) => {
+        this.hasClients = false;
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }
 }
