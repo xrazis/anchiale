@@ -7,7 +7,7 @@
       <div class="field is-grouped">
         <p class="control">
           <button class="button is-success is-outlined " v-on:click="getClient">
-            Fetch clients
+            Fetch Clients
           </button>
         </p>
         <p class="control">
@@ -55,7 +55,7 @@
 import { Vue } from 'vue-class-component';
 import axios from 'axios';
 
-export default class Panel extends Vue {
+export default class Devices extends Vue {
   private error = '';
   private hasClients = false;
   private clients: Array<string> = [];
