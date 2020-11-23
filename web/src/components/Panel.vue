@@ -15,11 +15,6 @@
             Clear
           </button>
         </p>
-        <p class="control">
-          <button class="button is-danger is-outlined" v-on:click="resetSocket">
-            Close server socket
-          </button>
-        </p>
       </div>
     </div>
     <div v-if="hasClients">
@@ -42,6 +37,16 @@
     </div>
     <div v-else>
       <span class="panel-block">No clients yet, try fetching!</span>
+    </div>
+    <div class="panel-block">
+      <p class="control">
+        <button
+          class="button is-danger is-outlined is-fullwidth"
+          v-on:click="resetSocket"
+        >
+          Close server socket
+        </button>
+      </p>
     </div>
   </nav>
 </template>

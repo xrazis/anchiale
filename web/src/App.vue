@@ -6,7 +6,9 @@
       <div class="column is-one-fifth mx-2">
         <Panel />
       </div>
-      <div class="column mx-2"></div>
+      <div class="column mx-2">
+        <Tile />
+      </div>
     </div>
     <Footer />
   </div>
@@ -17,6 +19,7 @@ import { Options, Vue } from 'vue-class-component';
 import Navbar from '@/components/Navbar.vue';
 import Hero from '@/components/Hero.vue';
 import Panel from '@/components/Panel.vue';
+import Tile from '@/components/Tile.vue';
 import Footer from '@/components/Footer.vue';
 
 @Options({
@@ -24,6 +27,7 @@ import Footer from '@/components/Footer.vue';
     Navbar,
     Hero,
     Panel,
+    Tile,
     Footer,
   },
 })
