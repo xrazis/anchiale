@@ -48,25 +48,29 @@ export class Database {
       });
   }
 
-  query(filter: string): void {
-    const query = `from(bucket: "${process.env.DB_BUCKET}") |> range(start: -1h) |> filter(fn: (r) => r._measurement == "${filter}")`;
+  query(filter: string, timeFrame: string) {
+    const query = `from(bucket: "${process.env.DB_BUCKET}") |> range(start: -${timeFrame}) |> filter(fn: (r) => r._measurement == "${filter}")`;
 
-    this.queryApi.queryRows(query, {
-      next(row, tableMeta) {
-        const o = tableMeta.toObject(row);
-        console.log(
-          chalk.cyan(
-            `On ${o._time} took ${o._measurement} of ${o._field}=${o._value}`
-          )
-        );
-      },
-      error(error) {
-        console.error(error);
-        console.log(chalk.red('Query ERROR'));
-      },
-      complete() {
-        console.log(chalk.magenta('Query finished'));
-      },
+    const data = this.queryApi
+      .collectRows(query)
+      .then(async (result) => {
+        const formatedData = await this.formatData(result);
+        return formatedData;
+      })
+      .catch(() => {
+        return [{ Error: 'Error occured' }];
+      });
+
+    return data;
+  }
+
+  formatData(rawData: any): Array<{}> {
+    let formatedData: Array<{}> = [];
+
+    rawData.forEach((element: any) => {
+      formatedData.push({ time: element._time, value: element._value });
     });
+
+    return formatedData;
   }
 }

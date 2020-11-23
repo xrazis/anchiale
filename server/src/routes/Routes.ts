@@ -1,4 +1,5 @@
 import * as express from 'express';
+import { Database } from '../class/Database';
 import { Service } from '../class/Service';
 
 export class Routes {
@@ -12,6 +13,7 @@ export class Routes {
   private devices(): void {
     this.app.get('/devices', async (req, res) => {
       const data = await this.service.socket.rooms;
+
       res.header('Content-Type', 'application/json');
       if (data) {
         res.send(JSON.stringify(data));
@@ -30,6 +32,22 @@ export class Routes {
           res.send('done');
         } else {
           res.send('error');
+        }
+      });
+    });
+  }
+
+  private measurements(): void {
+    this.app.get('/measurements', async (req, res) => {
+      req.on('data', async (data) => {
+        const { filter, timeFrame } = JSON.parse(data);
+        const points = await this.service.database.query('temperature', '5m');
+
+        res.header('Content-Type', 'application/json');
+        if (points) {
+          res.send(JSON.stringify(points));
+        } else {
+          res.send(JSON.stringify({}));
         }
       });
     });
@@ -54,6 +72,7 @@ export class Routes {
 
   public routes(): void {
     this.devices();
+    this.measurements();
     this.socket();
   }
 }

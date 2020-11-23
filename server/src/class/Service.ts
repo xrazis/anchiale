@@ -3,7 +3,7 @@ import { Database } from './Database';
 import { Socket } from './Socket';
 
 export class Service {
-  private database!: Database;
+  database!: Database;
   socket!: Socket<Express.Application>;
 
   constructor(private http: Server) {
