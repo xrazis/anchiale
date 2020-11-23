@@ -1,5 +1,4 @@
 import * as express from 'express';
-import { Database } from '../class/Database';
 import { Service } from '../class/Service';
 
 export class Routes {
@@ -39,17 +38,14 @@ export class Routes {
 
   private measurements(): void {
     this.app.get('/measurements', async (req, res) => {
-      req.on('data', async (data) => {
-        const { filter, timeFrame } = JSON.parse(data);
-        const points = await this.service.database.query('temperature', '5m');
+      const points = await this.service.database.query('temperature', '1h');
 
-        res.header('Content-Type', 'application/json');
-        if (points) {
-          res.send(JSON.stringify(points));
-        } else {
-          res.send(JSON.stringify({}));
-        }
-      });
+      res.header('Content-Type', 'application/json');
+      if (points) {
+        res.send(JSON.stringify(points));
+      } else {
+        res.send(JSON.stringify({}));
+      }
     });
   }
 

@@ -68,7 +68,11 @@ export class Database {
     let formatedData: Array<{}> = [];
 
     rawData.forEach((element: any) => {
-      formatedData.push({ time: element._time, value: element._value });
+      formatedData.push({
+        client: element.client,
+        time: element._time,
+        value: element._value,
+      });
     });
 
     return formatedData;
