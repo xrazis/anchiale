@@ -4,10 +4,10 @@
     <Hero />
     <div class="columns mt-6 mb-6 mx-4">
       <div class="column is-one-fifth mx-2">
-        <Panel />
+        <Devices />
       </div>
       <div class="column mx-2">
-        <Tile />
+        <Chart />
       </div>
     </div>
     <Footer />
@@ -18,16 +18,16 @@
 import { Options, Vue } from 'vue-class-component';
 import Navbar from '@/components/Navbar.vue';
 import Hero from '@/components/Hero.vue';
-import Panel from '@/components/Panel.vue';
-import Tile from '@/components/Tile.vue';
+import Devices from '@/components/Devices.vue';
+import Chart from '@/components/Chart.vue';
 import Footer from '@/components/Footer.vue';
 
 @Options({
   components: {
     Navbar,
     Hero,
-    Panel,
-    Tile,
+    Devices,
+    Chart,
     Footer,
   },
 })
