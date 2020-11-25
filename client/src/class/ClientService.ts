@@ -13,12 +13,12 @@ export class ClientService {
   tempService(): void {
     setInterval(() => {
       this.clientSocket.sendTemp(this.sensor.takeMeasure, 'temperature');
-    }, 1 * 60000);
+    }, 5 * 60000);
   }
 
   tempTestService(): void {
     setInterval(() => {
       this.clientSocket.sendTemp(this.sensor.takeTestMeasure, 'temperature');
-    }, 1 * 60000);
+    }, 5 * 60000);
   }
 }

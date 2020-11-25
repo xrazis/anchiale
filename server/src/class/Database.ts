@@ -49,7 +49,8 @@ export class Database {
   }
 
   query(filter: string, timeFrame: string) {
-    const query = `from(bucket: "${process.env.DB_BUCKET}") |> range(start: -${timeFrame}) |> filter(fn: (r) => r._measurement == "${filter}")`;
+    const query = `from(bucket: "${process.env.DB_BUCKET}") |> range(start: -${timeFrame}) |> group(columns: ["client"])
+      |> filter(fn: (r) => r._measurement == "${filter}")`;
 
     const data = this.queryApi
       .collectRows(query)
