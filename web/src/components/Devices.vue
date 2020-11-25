@@ -24,7 +24,7 @@
             <span class="icon is-medium">
               <i class="fab fa-raspberry-pi" />
             </span>
-            _id: {{ client }}
+            <p class="is-family-monospace">{{ client }}</p>
           </div>
           <div class="level-right">
             <a class="delete" v-on:Click="deleteClient(index)"></a>
