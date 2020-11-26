@@ -11,7 +11,7 @@ Anchiale is an internet of things solution for temperature sampling with raspber
 
 Clone the project:
 
-    git clone git@github.com:xrazis/Anchiale-pi.git
+    git clone git@github.com:xrazis/anchiale.git
 ## Run Locally
 
 The server connects to an influx-db instance. Make sure you first start the database and correctly set the .env file on the server.
@@ -74,4 +74,9 @@ A server with a database is running over at swarmlab. You can connect your local
 1. Set the URL in the client .env file to XXXXXXXXXX.
 2. Start up the client with one of the ways described above.
 3. Done 😄 ! 
+# Web console
+
+On the web console you can see the devices connected and display the latest measurements in a chart or table. Installation and running instructions are in a separate markdown file, in the /web sub-directory.
+
+
 
