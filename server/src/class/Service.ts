@@ -16,6 +16,6 @@ export class Service {
   }
 
   private initSocket() {
-    this.socket = new Socket<Server>('temp', this.http, this.database);
+    this.socket = new Socket<Server>('measurement', this.http, this.database);
   }
 }

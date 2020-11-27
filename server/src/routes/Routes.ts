@@ -38,7 +38,7 @@ export class Routes {
 
   private measurements(): void {
     this.app.get('/measurements', async (req, res) => {
-      const points = await this.service.database.query('temperature', '1h');
+      const points = await this.service.database.query('temperature', '1h'); // make temperature to something more abstract
 
       res.header('Content-Type', 'application/json');
       if (points) {

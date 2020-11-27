@@ -1,5 +1,5 @@
-import chalk from 'chalk';
 import { exit } from 'process';
+import chalk from 'chalk';
 import io from 'socket.io-client';
 
 export class ClientSocket {
@@ -31,7 +31,7 @@ export class ClientSocket {
       if (reason === 'io server disconnect') this.socket.connect();
 
       if (reason === 'io client disconnect') {
-        console.log(chalk.red('Server kicked you out!'));
+        console.log(chalk.red('Server kicked you!'));
         exit(1);
       }
 
@@ -48,7 +48,7 @@ export class ClientSocket {
     this.socket.disconnect();
   }
 
-  sendTemp(measurement: number, pointName: string): void {
+  sendMeasure(measurement: number, pointName: string): void {
     this.socket.emit(this.eventName, { measurement, pointName });
   }
 }

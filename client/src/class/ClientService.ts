@@ -4,7 +4,7 @@ import { Sensor } from './Sensor';
 export class ClientService {
   private clientSocket: ClientSocket = new ClientSocket(
     process.env.SERVER_URL!,
-    'temp'
+    'measurement'
   );
   private sensor: Sensor = new Sensor();
 
@@ -12,13 +12,13 @@ export class ClientService {
 
   tempService(): void {
     setInterval(() => {
-      this.clientSocket.sendTemp(this.sensor.takeMeasure, 'temperature');
+      this.clientSocket.sendMeasure(this.sensor.takeMeasure, 'temperature');
     }, 5 * 60000);
   }
 
   tempTestService(): void {
     setInterval(() => {
-      this.clientSocket.sendTemp(this.sensor.takeTestMeasure, 'temperature');
+      this.clientSocket.sendMeasure(this.sensor.takeTestMeasure, 'temperature');
     }, 5 * 60000);
   }
 }
