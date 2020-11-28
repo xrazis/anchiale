@@ -6,28 +6,22 @@
     <div class="panel-block">
       <div class="field is-grouped">
         <p class="control">
-          <button class="button is-success is-outlined" v-on:click="getData">
+          <button class="button is-success is-outlined" @click="getData">
             Fetch Data
           </button>
         </p>
         <p class="control">
-          <button
-            class="button is-success is-outlined"
-            v-on:click="createChart"
-          >
+          <button class="button is-success is-outlined" @click="createChart">
             Create Chart
           </button>
         </p>
         <p class="control">
-          <button
-            class="button is-success is-outlined"
-            v-on:click="createTable"
-          >
+          <button class="button is-success is-outlined" @click="createTable">
             Create Table
           </button>
         </p>
         <p class="control">
-          <button class="button is-outlined" v-on:click="clearData">
+          <button class="button is-outlined" @click="clearData">
             Clear
           </button>
         </p>

@@ -1,69 +1,80 @@
 <template>
-  <canvas id="chart"></canvas>
+  <canvas id="chart" />
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-import { Component, Prop } from 'vue-property-decorator';
+import { Vue } from 'vue-class-component';
+import { Prop } from 'vue-property-decorator';
 import Chart from 'chart.js';
 
+interface points {
+  client: string;
+  value: string;
+  time: string;
+}
+
 export default class Canva extends Vue {
-  @Prop() readonly points!: [];
+  @Prop() readonly points!: [points];
 
   mounted() {
-    const ctx = document.getElementById('chart') as HTMLCanvasElement;
-    const myChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: [
-          '-60m',
-          '-55m',
-          '-50m',
-          '-45m',
-          '-40m',
-          '-35m',
-          '-30m',
-          '-25m',
-          '-20m',
-          '-15m',
-          '-10m',
-          '-5m',
-        ],
-        datasets: [
-          {
-            // one line graph
-            label: 'Number of Moons',
-            data: [0, 0, 1, 2, 37, 42, 27, 14, null, 10, 10, 55],
+    // spaggheti code, MUST refactor
+    let dataset = [];
+    let data = [];
+    let counter = 0;
+    let client_id = this.points[0].client;
 
-            borderColor: [
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
-            ],
-            borderWidth: 3,
-          },
-        ],
+    //bad code - assumes clients come grouped
+    for (const point of this.points) {
+      if (point.client != client_id || counter === this.points.length - 1) {
+        dataset.push({
+          label: client_id,
+          borderColor: '#808080',
+          backgroundColor: this.getRandomColor(),
+          data: data,
+        });
+        client_id = point.client;
+        data = [];
+        counter++;
+      }
+
+      const time =
+        new Date(point.time).getHours() +
+        '.' +
+        new Date(point.time).getMinutes();
+
+      data.push({
+        x: parseFloat(time),
+        y: parseInt(point.value),
+      });
+    }
+
+    const ctx = document.getElementById('chart') as HTMLCanvasElement;
+
+    new Chart(ctx, {
+      type: 'scatter',
+      data: {
+        datasets: dataset,
       },
       options: {
-        responsive: true,
         scales: {
-          yAxes: [
+          xAxes: [
             {
-              ticks: {
-                beginAtZero: true,
-                padding: 5,
-                max: 60,
-              },
+              type: 'linear',
+              position: 'bottom',
             },
           ],
         },
       },
     });
+  }
+
+  getRandomColor(): string {
+    let letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 }
 </script>
